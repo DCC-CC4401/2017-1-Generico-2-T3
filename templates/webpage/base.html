@@ -39,8 +39,14 @@
                 </div>
                 </li>
                 <li><a href="{% url 'index' %}"><i class="material-icons">home</i>Inicio</a></li>
+                
+                {% if user.is_authenticated %}
+                <li><a href="{% url 'logout' %}"><i class="material-icons">exit_to_app</i>Cerrar Sesión</a></li>
+                {% else %}
                 <li><a href="{% url 'login' %}"><i class="material-icons">account_circle</i>Iniciar Sesión</a></li>
-                <!--<li><a href="{% url 'login' %}"><i class="material-icons">exit_to_app</i>Cerrar Sesión</a></li>-->
+
+                {% endif %}
+                
                 <!--<li><div class="divider"></div></li>
                 <li><a class="subheader">Activo</a></li>
                 <li>

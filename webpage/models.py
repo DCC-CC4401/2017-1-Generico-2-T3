@@ -2,14 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User , Group
 
 
-class Comprador(models.Model):
-    user = models.OneToOneField(
-        User,
-        on_delete=models.CASCADE,
-        primary_key=True,
-    )
-    favoritos = models.ManyToManyField(Vendedor)
-
+class Categorias(models.Model):
+    tipo =models.CharField(max_length=25)
 
 class Vendedor(models.Model):
     user = models.OneToOneField(
@@ -39,6 +33,14 @@ class VendedorFijo(models.Model):
     horaFin = models.IntegerField()
     minutoFin = models.IntegerField()
 
+class Comprador(models.Model):
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        primary_key=True,
+    )
+    favoritos = models.ManyToManyField(Vendedor)
+
 class Producto(models.Model):
     vendedor = models.ForeignKey(
         'Vendedor',
@@ -51,8 +53,6 @@ class Producto(models.Model):
     categorias = models.ManyToManyField(Categorias)
 
 
-class Categorias(models.Model):
-	tipo =models.CharField(max_length=25)
 
 
 
