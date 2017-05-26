@@ -2,8 +2,14 @@ from django.db import models
 from django.contrib.auth.models import User , Group
 
 
-class Categorias(models.Model):
-	tipo =models.CharField(max_length=25)
+class Comprador(models.Model):
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        primary_key=True,
+    )
+    favoritos = models.ManyToManyField(Vendedor)
+
 
 class Vendedor(models.Model):
     user = models.OneToOneField(
@@ -12,14 +18,6 @@ class Vendedor(models.Model):
         primary_key=True,
     )
     foto = models.CharField(max_length=100)
-
-class Comprador(models.Model):
-    user = models.OneToOneField(
-        User,
-        on_delete=models.CASCADE,
-        primary_key=True,
-    )
-    favoritos = models.ManyToManyField(Vendedor)
 
 
 class VendedorAmbulante(models.Model):
@@ -53,7 +51,8 @@ class Producto(models.Model):
     categorias = models.ManyToManyField(Categorias)
 
 
-
+class Categorias(models.Model):
+	tipo =models.CharField(max_length=25)
 
 
 
