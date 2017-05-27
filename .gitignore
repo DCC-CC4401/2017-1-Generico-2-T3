@@ -142,3 +142,5 @@ compiled/
 # Bak files
 *.bak
 db.sqlite3
+webpage/migrations/
+profileImage/

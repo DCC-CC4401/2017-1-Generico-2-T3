@@ -15,7 +15,7 @@ class Vendedor(models.Model):
     acepta_Credito = models.BooleanField()
     acepta_Debito = models.BooleanField()
     acepta_Junaeb = models.BooleanField()
-    foto = models.CharField(max_length=100)
+    avatar = models.FileField(blank=True, upload_to='profileImage')
 
 class Comprador(models.Model):
     user = models.OneToOneField(
@@ -24,6 +24,7 @@ class Comprador(models.Model):
         primary_key=True,
     )
     favoritos = models.ManyToManyField(Vendedor)
+    avatar = models.FileField(blank=True, upload_to='carpetacualquiera')
 
 
 class VendedorAmbulante(models.Model):
