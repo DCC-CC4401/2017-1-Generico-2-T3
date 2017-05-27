@@ -31,7 +31,7 @@
                     {% if fijo %}
                         <p class="medium-small flow-text grey-text">&emsp;&emsp;&ensp;Vendedor Fijo</p>
                         <p class="flow-text text-darken-4" style="font-size: 0.88rem;">
-                            &emsp;&emsp;Horario: <a class="light-green-text">12:30-14:15</a>
+                            &emsp;&emsp;Horario: <a class="light-green-text">{{ vendedor.horaInicio }}:{{ vendedor.minutoInicio }}-{{ vendedor.horaFin }}:{{ vendedor.minutoFin }}</a>
                         </p>
                     {% else %}
                         <p class="medium-small flow-text grey-text">&emsp;&emsp;&ensp;Vendedor Ambulante</p>
@@ -72,7 +72,7 @@
                 {% if fijo %}
                     <p class="medium-small flow-text grey-text">&ensp;Vendedor Fijo</p>
                     <p class="flow-text text-darken-4" style="font-size: 0.88rem;">
-                        &ensp;Horario: <a class="light-green-text">12:30-14:15</a>
+                        &ensp;Horario: <a class="light-green-text">{{ vendedor.horaInicio }}:{{ vendedor.minutoInicio }}-{{ vendedor.horaFin }}:{{ vendedor.minutoFin }}</a>
                     </p>
                 {% else %}
                     <p class="medium-small flow-text grey-text">&ensp;Vendedor Ambulante</p>
