@@ -57,13 +57,20 @@ def reg_intent(request):
             comprador = Comprador.objects.create(user=usuario,avatar = vavatar)
             comprador.save()
         else:
-            vacepta_Efectivo = request.POST['Efectivo']=='on'
-            vacepta_Credito = request.POST['Credito']=='on'
-            vacepta_Debito = request.POST['Debito']=='on'
-            vacepta_Junaeb = request.POST['Junaeb']=='on'
-            vendedor = Vendedor.objects.create(user=usuario,acepta_Efectivo=vacepta_Efectivo,
-                                               acepta_Credito = vacepta_Credito, acepta_Debito = vacepta_Debito,
-                                               acepta_Junaeb = vacepta_Junaeb, avatar = request.FILES['perfil'])
+            mediosPago = request.POST.dict()
+            valMediosPago = [False,False,False,False]
+            print(mediosPago)
+            if "Efectivo" in mediosPago:
+                valMediosPago[0]=True
+            if "Credito" in mediosPago:
+                valMediosPago[1] = True
+            if "Debito" in mediosPago:
+                valMediosPago[2] = True
+            if "Junaeb" in mediosPago:
+                valMediosPago[3] = True
+            vendedor = Vendedor.objects.create(user=usuario,acepta_Efectivo=valMediosPago[0],
+                                               acepta_Credito = valMediosPago[1], acepta_Debito = valMediosPago[2],
+                                               acepta_Junaeb = valMediosPago[3], avatar = request.FILES['perfil'])
 
             if(tipo=='VendedorFijo'):
                 vhoraInicio,vminutoInicio = str(request.POST['horaInicio']).split(":")
