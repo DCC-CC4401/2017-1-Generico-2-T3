@@ -30,6 +30,8 @@ def perfil_vendedor(request, nombre_vendedor):
 	return render(request, 'webpage/vendedor-profile-page.html',{'vendedor' : vendedor , 'fijo' : fijo})
 
 
+
+
 def gestion_producto(request):
     return render(request, 'webpage/gestion-productos.html')
 
