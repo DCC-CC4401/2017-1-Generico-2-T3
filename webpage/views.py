@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
@@ -18,16 +20,17 @@ def signup(request):
 
 
 def perfil_vendedor(request, nombre_vendedor):
-	fijo= False 
-	try:		
-		vendedor = VendedorFijo.objects.get(pk=nombre_vendedor)
-		fijo=True
-	except VendedorFijo.DoesNotExist:
-		try:
-			vendedor = VendedorAmbulante.objects.get(pk=nombre_vendedor)
-		except VendedorAmbulante.DoesNotExist:
-			raise Http404("No hay vendedores que tengan el nombre buscado")
-	return render(request, 'webpage/vendedor-profile-page.html',{'vendedor' : vendedor , 'fijo' : fijo})
+    fijo= False
+    user = get_object_or_404(User, username=nombre_vendedor)
+    if hasattr(user, 'vendedor'):
+        if hasattr(user.vendedor, 'vendedorfijo'):
+            vendedor = user.vendedor.vendedorfijo
+            fijo=True
+        else:
+            vendedor = user.vendedor.vendedorambulante
+    else:
+        raise Http404("No hay vendedores que tengan el nombre buscado")
+    return render(request, 'webpage/vendedor-profile-page.html',{'vendedor' : vendedor , 'fijo' : fijo})
 
 
 def gestion_producto(request):
