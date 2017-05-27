@@ -31,7 +31,7 @@
                     {% if fijo %}
                         <p class="medium-small flow-text grey-text">&emsp;&emsp;&ensp;Vendedor Fijo</p>
                         <p class="flow-text text-darken-4" style="font-size: 0.88rem;">
-                            &emsp;&emsp;Horario: <a class="light-green-text">{{ vendedor.horaInicio }}:{{ vendedor.minutoInicio }}-{{ vendedor.horaFin }}:{{ vendedor.minutoFin }}</a>
+                            &emsp;&emsp;Horario: <a class="light-green-text">{{ horario_inicio }}-{{ horario_fin }}</a>
                         </p>
                     {% else %}
                         <p class="medium-small flow-text grey-text">&emsp;&emsp;&ensp;Vendedor Ambulante</p>
@@ -39,8 +39,12 @@
 
                     </div>
                     <div class="col s3 l2 hide-on-med-and-down center-align">
-                         <h4 class="card-title flow-text text-darken-4">Estado</h4>
+                        <h4 class="card-title flow-text text-darken-4">Estado</h4>
+                    {% if activo %}
                         <p class="medium-small flow-text light-green-text">Disponible</p>
+                    {% else %}
+                        <p class="medium-small flow-text red-text">No disponible</p>
+                    {% endif %}
                     </div>
                     <div class="col s3 l2 hide-on-med-and-down center-align">
                         <h8 class=" grey-text flow-text text-darken-4" style="font-size: 1.3rem;">Formas de pago</h8>
@@ -72,7 +76,7 @@
                 {% if fijo %}
                     <p class="medium-small flow-text grey-text">&ensp;Vendedor Fijo</p>
                     <p class="flow-text text-darken-4" style="font-size: 0.88rem;">
-                        &ensp;Horario: <a class="light-green-text">{{ vendedor.horaInicio }}:{{ vendedor.minutoInicio }}-{{ vendedor.horaFin }}:{{ vendedor.minutoFin }}</a>
+                        &ensp;Horario: <a class="light-green-text">{{ horario_inicio }}-{{ horario_fin }}</a>
                     </p>
                 {% else %}
                     <p class="medium-small flow-text grey-text">&ensp;Vendedor Ambulante</p>
@@ -89,7 +93,11 @@
                 </div>
                 <div class="col s3 m2 l12 offset-s1">
                     <p class="flow-text text-darken-4">Estado</p>
+                {% if activo %}
                     <p class="medium-small flow-text light-green-text">Disponible</p>
+                {% else %}
+                    <p class="medium-small flow-text red-text">No disponible</p>
+                {% endif %}
                 </div>
 
                 <div class="col s3 m2 l12 offset-s1"> <!--offset-s2-->
