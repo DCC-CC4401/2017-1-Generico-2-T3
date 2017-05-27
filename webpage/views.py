@@ -24,6 +24,16 @@ def perfil_vendedor(request, nombre_vendedor):
     context = dict()
     user = get_object_or_404(User, username=nombre_vendedor)
     if hasattr(user, 'vendedor'):
+        medios_pago = []
+        if user.vendedor.acepta_Efectivo:
+            medios_pago.append("Efectivo")
+        if user.vendedor.acepta_Credito:
+            medios_pago.append("Tarjeta de Crédito")
+        if user.vendedor.acepta_Debito:
+            medios_pago.append("Tarjeta de Débito")
+        if user.vendedor.acepta_Junaeb:
+            medios_pago.append("Tarjeta Junaeb")
+        context['medios_pago'] = medios_pago
         if hasattr(user.vendedor, 'vendedorfijo'):
             context['vendedor'] = user.vendedor.vendedorfijo
             context['fijo'] = True
