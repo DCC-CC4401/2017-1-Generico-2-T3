@@ -17,6 +17,7 @@ class Vendedor(models.Model):
     acepta_Junaeb = models.BooleanField()
     avatar = models.FileField(blank=True, upload_to='profileImage')
 
+
 class Comprador(models.Model):
     user = models.OneToOneField(
         User,
@@ -45,6 +46,14 @@ class VendedorFijo(models.Model):
     minutoInicio = models.IntegerField()
     horaFin = models.IntegerField()
     minutoFin = models.IntegerField()
+
+class Comprador(models.Model):
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        primary_key=True,
+    )
+    favoritos = models.ManyToManyField(Vendedor)
 
 class Producto(models.Model):
     vendedor = models.ForeignKey(
