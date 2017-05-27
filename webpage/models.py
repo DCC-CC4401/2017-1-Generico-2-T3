@@ -25,7 +25,7 @@ class Comprador(models.Model):
         primary_key=True,
     )
     favoritos = models.ManyToManyField(Vendedor)
-    avatar = models.FileField(blank=True, upload_to='carpetacualquiera')
+    avatar = models.IntegerField()
 
 
 class VendedorAmbulante(models.Model):
@@ -47,13 +47,6 @@ class VendedorFijo(models.Model):
     horaFin = models.IntegerField()
     minutoFin = models.IntegerField()
 
-class Comprador(models.Model):
-    user = models.OneToOneField(
-        User,
-        on_delete=models.CASCADE,
-        primary_key=True,
-    )
-    favoritos = models.ManyToManyField(Vendedor)
 
 class Producto(models.Model):
     vendedor = models.ForeignKey(
