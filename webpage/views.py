@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+from datetime import time, datetime
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
@@ -18,16 +21,35 @@ def signup(request):
 
 
 def perfil_vendedor(request, nombre_vendedor):
-	fijo= False 
-	try:		
-		vendedor = VendedorFijo.objects.get(pk=nombre_vendedor)
-		fijo=True
-	except VendedorFijo.DoesNotExist:
-		try:
-			vendedor = VendedorAmbulante.objects.get(pk=nombre_vendedor)
-		except VendedorAmbulante.DoesNotExist:
-			raise Http404("No hay vendedores que tengan el nombre buscado")
-	return render(request, 'webpage/vendedor-profile-page.html',{'vendedor' : vendedor , 'fijo' : fijo})
+    context = dict()
+    user = get_object_or_404(User, username=nombre_vendedor)
+    if hasattr(user, 'vendedor'):
+        medios_pago = []
+        if user.vendedor.acepta_Efectivo:
+            medios_pago.append("Efectivo")
+        if user.vendedor.acepta_Credito:
+            medios_pago.append("Tarjeta de Crédito")
+        if user.vendedor.acepta_Debito:
+            medios_pago.append("Tarjeta de Débito")
+        if user.vendedor.acepta_Junaeb:
+            medios_pago.append("Tarjeta Junaeb")
+        context['medios_pago'] = medios_pago
+        if hasattr(user.vendedor, 'vendedorfijo'):
+            context['vendedor'] = user.vendedor.vendedorfijo
+            context['fijo'] = True
+            horario_inicio = time(context['vendedor'].horaInicio, context['vendedor'].minutoInicio)
+            horario_fin = time(context['vendedor'].horaFin, context['vendedor'].minutoFin)
+            hora_actual = time(datetime.now().hour, datetime.now().minute)
+            context['activo'] = hora_actual >= horario_inicio and hora_actual <= horario_fin
+            context['horario_inicio'] = horario_inicio.strftime("%H:%M")
+            context['horario_fin'] = horario_fin.strftime("%H:%M")
+        else:
+            context['vendedor'] = user.vendedor.vendedorambulante
+            context['fijo'] = False
+            context['activo'] = context['vendedor'].activo
+    else:
+        raise Http404("No hay vendedores que tengan el nombre buscado")
+    return render(request, 'webpage/vendedor-profile-page.html',context)
 
 
 
