@@ -16,6 +16,8 @@ def login_user(request):
     return render(request, 'webpage/login.html')
 
 
+
+
 def signup(request):
     return render(request, 'webpage/signup.html')
 
@@ -34,6 +36,13 @@ def perfil_vendedor(request, nombre_vendedor):
         if user.vendedor.acepta_Junaeb:
             medios_pago.append("Tarjeta Junaeb")
         context['medios_pago'] = medios_pago
+        
+        
+        favoritos = user.vendedor.comprador_set.all()
+        context['favoritos'] = favoritos.count()
+
+
+
         if hasattr(user.vendedor, 'vendedorfijo'):
             context['vendedor'] = user.vendedor.vendedorfijo
             context['fijo'] = True
@@ -77,6 +86,9 @@ def login_intent(request):
         })
 
 
+
+
+
 def reg_intent(request):
     name = request.POST['nombre']
     passw = request.POST['password']
@@ -104,7 +116,7 @@ def reg_intent(request):
                 valMediosPago[3] = True
             vendedor = Vendedor.objects.create(user=usuario,acepta_Efectivo=valMediosPago[0],
                                                acepta_Credito = valMediosPago[1], acepta_Debito = valMediosPago[2],
-                                               acepta_Junaeb = valMediosPago[3], avatar = request.FILES['perfil'])
+                                               acepta_Junaeb = valMediosPago[3], avatar = request.FILES.get('fotoPerfil', None))
 
             if(tipo=='VendedorFijo'):
                 vhoraInicio,vminutoInicio = str(request.POST['horaInicio']).split(":")
@@ -121,3 +133,43 @@ def reg_intent(request):
          return render(request, 'webpage/signup.html', {
              'error': 'Nombre de usuario no disponible'
          })
+
+
+
+
+def favorito(request, nombre_vendedor):
+    context = dict()
+    user = get_object_or_404(User, username=nombre_vendedor)
+    if hasattr(user, 'vendedor'):
+        medios_pago = []
+        if user.vendedor.acepta_Efectivo:
+            medios_pago.append("Efectivo")
+        if user.vendedor.acepta_Credito:
+            medios_pago.append("Tarjeta de Crédito")
+        if user.vendedor.acepta_Debito:
+            medios_pago.append("Tarjeta de Débito")
+        if user.vendedor.acepta_Junaeb:
+            medios_pago.append("Tarjeta Junaeb")
+        context['medios_pago'] = medios_pago
+        if hasattr(user.vendedor, 'vendedorfijo'):
+            context['vendedor'] = user.vendedor.vendedorfijo
+            context['fijo'] = True
+            horario_inicio = time(context['vendedor'].horaInicio, context['vendedor'].minutoInicio)
+            horario_fin = time(context['vendedor'].horaFin, context['vendedor'].minutoFin)
+            hora_actual = time(datetime.now().hour, datetime.now().minute)
+            context['activo'] = hora_actual >= horario_inicio and hora_actual <= horario_fin
+            context['horario_inicio'] = horario_inicio.strftime("%H:%M")
+            context['horario_fin'] = horario_fin.strftime("%H:%M")
+        else:
+            context['vendedor'] = user.vendedor.vendedorambulante
+            context['fijo'] = False
+            context['activo'] = context['vendedor'].activo
+    else:
+        raise Http404("No hay vendedores que tengan el nombre buscado")
+    return render(request, 'webpage/vendedor-profile-page.html',context)
+
+
+
+
+
+
