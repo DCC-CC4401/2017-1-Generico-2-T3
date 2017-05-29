@@ -18,8 +18,8 @@ urlpatterns = [
     url(r'^producto/(?P<pk_producto>\w+)$', views.editar_producto, name='editarProducto'),
     url(r'^actualizarProducto/(?P<pk_producto>\w+)$', views.actualizar_producto, name='actualizarProducto'),
     url(r'^eliminarProducto/(?P<pk_producto>\w+)$', views.eliminar_producto, name='eliminarProducto'),
-    url(r'^checkswitch$', views.checkswitch, name='checkswitch')
-
+    url(r'^checkswitch$', views.checkswitch, name='checkswitch'),
+    url(r'^favoritos/(?P<nombre_vendedor>\w+)?', views.gestion_favoritos, name='gestion_favoritos')
 
 
     

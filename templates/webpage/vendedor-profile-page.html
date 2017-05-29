@@ -7,6 +7,20 @@
   });
 
 </script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#fav1').change(function() {
+            var agregando = $.post("{% url 'gestion_favoritos' vendedor.user.username%}", {checked: this.checked, csrfmiddlewaretoken: '{{ csrf_token }}'});
+            agregando.done(function(data) {
+                console.log(data);
+                alert(data.message);
+            });
+            agregando.fail(function(data) {
+                alert("No fue posible agregar o eliminar el favorito")
+            });
+        });
+    });
+</script>
     <main>
 
     <div class="container">
@@ -15,183 +29,127 @@
                 <img class="activator" src="../../static/img/food-background3.png" alt="user background">
             </div>
             <div class="row hide-on-small-and-down">
-                <a class="card-profile-image-large">
+                <figure class="card-profile-image-large">
                     <img style="margin-top: 20%;" src="{{ vendedor.avatar.url }}" alt="profile image" class="circle z-depth-2 responsive-img activator">
-                </a>
+                </figure>
             </div>
             <div class="row show-on-small hide-on-med-and-up">
-                <a class="card-profile-image-small">
+                <figure class="card-profile-image-small">
                     <img src="{{ vendedor.avatar.url }}" alt="profile image" class="circle z-depth-2 responsive-img activator">
-                </a>
+                </figure>
             </div>
             <div class="card-content s12">
                 <div class="row">
-                    <div class="col s3 offset-s2 hide-on-med-and-down">
+                    <div class="col s6 m4 l3 offset-s6 offset-m4 offset-l2">
                         <h4 class="card-title grey-text flow-text text-darken-4">{{ vendedor.user.username }}</h4>
-                    {% if fijo %}
-                        <p class="medium-small flow-text grey-text">&emsp;Vendedor Fijo</p>
-                        <p class="flow-text text-darken-4" style="font-size: 0.88rem;">
-                            &emsp;Horario: <a class="light-green-text">{{ horario_inicio }}-{{ horario_fin }}</a>
-                        </p>
-                    {% else %}
-                        <p class="medium-small flow-text grey-text">&emsp;Vendedor Ambulante</p>
-                    {% endif %}
-
+                        {% if fijo %}
+                            <p class="medium-small flow-text grey-text">Vendedor Fijo</p>
+                            <p class="flow-text text-darken-4" style="font-size: 0.88rem;">
+                                Horario: <a class="light-green-text">{{ horario_inicio }}-{{ horario_fin }}</a>
+                            </p>
+                        {% else %}
+                            <p class="medium-small flow-text grey-text">Vendedor Ambulante</p>
+                        {% endif %}
                     </div>
-                    <div class="col s3 l2 hide-on-med-and-down center-align">
-                        <h4 class="card-title flow-text text-darken-4">Estado</h4>
-                    {% if activo %}
-                        <p class="medium-small flow-text light-green-text">Disponible</p>
-                    {% else %}
-                        <p class="medium-small flow-text red-text">No disponible</p>
-                    {% endif %}
+                    <div class="col s12 m4 l2">
+                        <h6 class="card-title grey-text flow-text text-darken-4">Estado</h6>
+                        {% if activo %}
+                            <p class="medium-small flow-text light-green-text">Disponible</p>
+                        {% else %}
+                            <p class="medium-small flow-text red-text">No disponible</p>
+                        {% endif %}
                     </div>
-                    <div class="col s3 l2 hide-on-med-and-down center-align">
-                        <h8 class=" grey-text flow-text text-darken-4" style="font-size: 1.3rem;">Formas de pago</h8>
+                    <div class="col s12 m8 l3">
+                        <h6 class="card-title grey-text flow-text text-darken-4">Formas de pago</h6>
                         <p class="medium-small flow-text grey-text">{% for medio_pago in medios_pago %}-{{ medio_pago }}<br>{% endfor %}</p>
                     </div>
-                    <div class="col s3 l2 hide-on-med-and-down center-align">
-                        <div class="switch"  style="margin-left: 10px;">
-                            <label>
-                                <h4 class="card-title grey-text flow-text text-darken-4">Favorito</h4>
-
-
-                                <h6><a href=><i class="material-icons amber-text">grade</i></a>
-                                    <span class=" grey-text flow-text text-darken-4"style="font-size:24px; line-height:35px;">{{ favoritos }}</span>
-                                </h6>
-                            </label>
-                        </div>
+                    <div class="col s12 m4 l2">
+                        {% if user.comprador %}
+                            <h6 class="card-title grey-text flow-text text-darken-4">Favorito</h6>
+                            <div class="switch" style="margin-left: 10px;">
+                                <label>
+                                    <input id="fav1" type="checkbox"><span class="lever"></span>
+                                </label>
+                            </div>
+                        {% elif user.username == vendedor.user.username %}
+                            <h6 class="card-title grey-text flow-text text-darken-4">Favoritos</h6>
+                            <i class="material-icons amber-text">grade</i>
+                            <span class=" grey-text flow-text text-darken-4"style="font-size:24px; line-height:35px;">{{ favoritos }}</span>
+                        {% endif %}
                     </div>
                 </div>
-
-                <div class="col s3 l2 hide-on-med-and-down right-align">
-                    <a class="btn-floating activator waves-effect waves-light darken-2">
-                          <i class="material-icons">mode_edit</i>
-                      </a>
-                 </div>
-            </div>
-
-            <div class="row show-on-medium-and-down hide-on-med-and-up">
-                <div class="col s4 offset-s2">
-
-
-                    <h4 class="card-title grey-text flow-text text-darken-4">{{ vendedor.user.username }}</h4>
-                {% if fijo %}
-                    <p class="medium-small flow-text grey-text">&ensp;Vendedor Fijo</p>
-                    <p class="flow-text text-darken-4" style="font-size: 0.88rem;">
-                        &ensp;Horario: <a class="light-green-text">{{ horario_inicio }}-{{ horario_fin }}</a>
-                    </p>
-                {% else %}
-                    <p class="medium-small flow-text grey-text">&ensp;Vendedor Ambulante</p>
-                {% endif %}
-                    <div class="switch" style="margin-left: 10px;">
-                        <label>
-                            <p class="card-title grey-text flow-text text-darken-4" style="font-size: 1.3rem;">Favorito</p>
-
-                            <input type="checkbox"><span class="lever"></span>
-
-                            <!--<input type="checkbox"><span class="lever"></span>-->
-
-
-                            <h6><i class="material-icons amber-text">grade</i>
-                                <span class=" grey-text flow-text text-darken-4"style="font-size:22px; line-height:25px;">{{ favoritos }}</span>
-                            </h6>
-                        </label>
-
-                    </div>
+                <div class="row">
+                    <div class="col offset-s10 s2">
+                        <a class="btn-floating activator waves-effect waves-light darken-2">
+                              <i class="material-icons">mode_edit</i>
+                          </a>
+                     </div>
                 </div>
-                <div class="col s3 m2 l12 offset-s1">
-                    <p class="flow-text text-darken-4">Estado</p>
-                {% if activo %}
-                    <p class="medium-small flow-text light-green-text">Disponible</p>
-                {% else %}
-                    <p class="medium-small flow-text red-text">No disponible</p>
-                {% endif %}
-                </div>
-
-                <div class="col s3 m2 l12 offset-s1"> <!--offset-s2-->
-                    <p class=" grey-text flow-text text-darken-4" style="font-size: 1.3rem;">Formas de pago</p>
-                    <p class="medium-small flow-text grey-text">{% for medio_pago in medios_pago %}-{{ medio_pago }}<br>{% endfor %}</p>
-                </div>
-
-                <!--<div class="col s3 offset-s2 offset-l10">
-                    <div class="switch" style="margin-left: 10px;">
-                        <label>
-                            <p class="card-title grey-text flow-text text-darken-4" style="font-size: 1.3rem;">Favorito</p>
-                            <input type="checkbox"><span class="lever"></span>
-                        </label>
-                    </div>
-                </div>-->
-                <div class="col s4 offset-s8 right-align"> <!--offset-s4-->
-                    <a class="btn-floating activator waves-effect waves-light darken-2">
-                          <i class="material-icons">mode_edit</i>
-                      </a>
-                 </div>
             </div>
         </div>
-    </div>
-    <div id="profile-page-content" class="row">
-        <div id="profile-page-wall" class="col s12 m8">
-            <div class="col s12 z-depth-1">
-                <div class="tab-content col s12">
-                    <div class="container">
-                        <div class="section">
-                            <div class="row">
-                                {% for producto in productos %}
+        <div id="profile-page-content" class="row">
+            <div id="profile-page-wall" class="col s12">
+                <div class="col s12 z-depth-1">
+                    <div class="tab-content col s12">
+                        <div class="container">
+                            <div class="section">
+                                <div class="row">
+                                    {% for producto in productos %}
 
-                                <div class="col s6 m6 l4">
-                                    <div class="container">
-                                        <div class="card z-depth-1">
+                                    <div class="col s6 m6 l4">
+                                        <div class="container">
+                                            <div class="card z-depth-1">
 
-                                            <div class="teal lighten-2 card-image waves-effect waves-block waves-light">
-                                              <img class="activator responsive-img center-block"  style="max-width: 30%; margin-top:20px; margin-bottom:20px;" src={{producto.fotoPrev}}>
-                                            </div>
-                                            <div class="card-content">
-                                              <span class="card-title activator grey-text text-darken-4">{{producto.nombre}}<i class="material-icons right">more_vert</i></span>
-                                              <p><a class="teal-text">${{producto.precio}}</a></p>
-                                                {% if request.user == vendedor.user %}
-                                                <p><a class="teal-text" href="{% url 'editarProducto' producto.pk %}">Editar</a></p>
-                                                <p><a class="teal-text" href="{% url 'eliminarProducto' producto.pk %}" style="color:red">Eliminar</a></p>
-                                                {% endif %}
-                                                <div id="modal1" class="modal">
-                                                    <div class="modal-content">
-                                                      <img class="activator responsive-img center-block" src={{producto.foto.url}}>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat"><i class="large material-icons">close</i></a>
+                                                <div class="teal lighten-2 card-image waves-effect waves-block waves-light">
+                                                  <img class="activator responsive-img center-block"  style="max-width: 30%; margin-top:20px; margin-bottom:20px;" src={{producto.fotoPrev}}>
+                                                </div>
+                                                <div class="card-content">
+                                                  <span class="card-title activator grey-text text-darken-4">{{producto.nombre}}<i class="material-icons right">more_vert</i></span>
+                                                  <p><a class="teal-text">${{producto.precio}}</a></p>
+                                                    {% if request.user == vendedor.user %}
+                                                    <p><a class="teal-text" href="{% url 'editarProducto' producto.pk %}">Editar</a></p>
+                                                    <p><a class="teal-text" href="{% url 'eliminarProducto' producto.pk %}" style="color:red">Eliminar</a></p>
+                                                    {% endif %}
+                                                    <div id="modal1" class="modal">
+                                                        <div class="modal-content">
+                                                          <img class="activator responsive-img center-block" src={{producto.foto.url}}>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                          <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat"><i class="large material-icons">close</i></a>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="card-reveal">
-                                              <span class="card-title grey-text text-darken-4">{{producto.nombre}}<i class="material-icons right">close</i></span>
-                                                <ul>
-                                                    <li>Precio: <a class="green-text light-green-text">{{producto.precio}}</a></li>
-                                                    <li>Categoria: Almuerzos</li>
-                                                    <li>Stock: {{producto.stock}} </li>
-                                                    <!--<small class="btn-floating btn-small waves-effect waves-light red accent-2"><i class="material-icons tiny">add</i></small>-->
-                                                    <br>
-                                                    <li>Descripción: {{producto.descripcion}}
-                                                        <p class="right-align"><a class="waves-effect waves-light" href="#modal1">Ver imagen</a></p>
+                                                <div class="card-reveal">
+                                                  <span class="card-title grey-text text-darken-4">{{producto.nombre}}<i class="material-icons right">close</i></span>
+                                                    <ul>
+                                                        <li>Precio: <a class="green-text light-green-text">{{producto.precio}}</a></li>
+                                                        <li>Categoria: Almuerzos</li>
+                                                        <li>Stock: {{producto.stock}} </li>
+                                                        <!--<small class="btn-floating btn-small waves-effect waves-light red accent-2"><i class="material-icons tiny">add</i></small>-->
+                                                        <br>
+                                                        <li>Descripción: {{producto.descripcion}}
+                                                            <p class="right-align"><a class="waves-effect waves-light" href="#modal1">Ver imagen</a></p>
 
-                                                    </li>
+                                                        </li>
 
-                                                </ul>
+                                                    </ul>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
+                                    {% endfor %}
                                 </div>
-                                {% endfor %}
                             </div>
+
                         </div>
 
                     </div>
-
+                    {% if request.user == vendedor.user %}
+                    <div class='row'>
+                        <a class='col l5 offset-l4 btn btn-large waves-effect button teal' href="{% url 'gestion_producto' %}">Agregar Item</a>
+                    </div>
+                    {% endif %}
                 </div>
-                {% if request.user == vendedor.user %}
-                <div class='row'>
-                    <a class='col l5 offset-l4 btn btn-large waves-effect button teal' href="{% url 'gestion_producto' %}">Agregar Item</a>
-                </div>
-                {% endif %}
             </div>
         </div>
     </div>

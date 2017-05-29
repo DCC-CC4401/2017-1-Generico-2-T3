@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from webpage.models import Producto
 from django.contrib.auth import authenticate, login, logout
-from django.http import Http404
+from django.http import Http404, JsonResponse
 
 from webpage.models import Comprador,Vendedor,VendedorFijo ,VendedorAmbulante
 
@@ -39,8 +39,8 @@ def perfil_vendedor(request, nombre_vendedor):
         if user.vendedor.acepta_Junaeb:
             medios_pago.append("Tarjeta Junaeb")
         context['medios_pago'] = medios_pago
-        
-        
+
+
         favoritos = user.vendedor.comprador_set.all()
         context['favoritos'] = favoritos.count()
 
@@ -232,11 +232,15 @@ def reg_intent(request):
          })
 
 
-
-
-
-
-
-
-
-
+def gestion_favoritos(request, nombre_vendedor):
+    if request.method == 'POST' and hasattr(request.user, 'comprador'):
+        comprador = request.user.comprador
+        vendedor = User.objects.get(username=nombre_vendedor).vendedor
+        if request.POST['checked'] == "true":
+            comprador.favoritos.add(vendedor)
+            return JsonResponse({'message': 'Vendedor agregado como favoritos.'})
+        else:
+            comprador.favoritos.remove(vendedor)
+            return JsonResponse({'message' : 'Vendedor removido de favorito.'})
+    else:
+        return JsonResponse({'message': 'No fue posible completar la operacion.'})
