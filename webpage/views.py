@@ -235,9 +235,14 @@ def reg_intent(request):
 
 
 
-def gestion_usuario()
+def gestion_usuario(request):
 
     return render(request, 'webpage/gestion-usuario.html')
+
+def cambios_exitosos(request):
+
+    return render(request, 'webpage/gestion-usuario.html',  {
+             'succes': 'Tus cambios han sido guardados con éxito'} )
 
 
 

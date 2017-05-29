@@ -15,7 +15,8 @@ urlpatterns = [
     url(r'^vendedor/(?P<nombre_vendedor>\w+)$', views.perfil_vendedor, name='perfil_vendedor'),
     url(r'^producto$', views.gestion_producto, name='gestion_producto'),
 
-    url(r'^configurar_perfil$', views.gestion_usuario, name='gestion_usuario'),
+    url(r'^miPerfil$', views.gestion_usuario, name='miPerfil'),
+    url(r'^miPerfil/cambios$', views.cambios_exitosos, name='cambios_exitosos'),
 
 
     url(r'^producto/addtry$', views.agregar_producto, name='addtry'),
