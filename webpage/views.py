@@ -145,6 +145,12 @@ def reg_intent(request):
 
 
 
+def gestion_usuario()
+
+    return render(request, 'webpage/gestion-usuario.html')
+
+
+
 
 
 
