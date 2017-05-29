@@ -38,10 +38,11 @@
                   </div>
                         {% if user.is_authenticated %}
                             {% if esVendedor %}
-                                <a href="#!user"><img style="margin-top: 16%;" class="circle" src= {{perfil}} ></a>
+                                <a href="#!user"><img style="margin-top: 16%;" class="circle" src= {{request.session.foto_perfil}} ></a>
                                 <a href="#!name"><span style="margin-left: 5%;" class="white-text name">{{user.username}}</span></a>
                             {% else %}
-                                <a href="#!user"><img style="margin-top: 16%;" class="circle" src= {{perfil}} ></a>
+                            
+                                <a href="#!user"><img style="margin-top: 16%;" class="circle" src= {{request.session.foto_perfil}} ></a>
                                 <a href="#!name"><span style="margin-left: 5%;" class="white-text name">{{user.username}}</span></a>
                             {% endif %}
 

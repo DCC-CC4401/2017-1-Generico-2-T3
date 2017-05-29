@@ -81,11 +81,12 @@ def login_intent(request):
         if hasattr(user, 'vendedor'):
             vendedor = Vendedor.objects.get(user=user)
             perfil = vendedor.avatar.url
+            request.session['foto_perfil'] = perfil
         else:
             cliente = Comprador.objects.get(user=user)
             perfil = "../../static/img/AvatarEstudiante" + str(cliente.avatar) + ".png"
-        print(perfil)
-        return render(request, 'webpage/index.html', {'esVendedor':hasattr(user, 'vendedor'), 'perfil':perfil})
+            request.session['foto_perfil'] = perfil
+        return render(request, 'webpage/index.html')
 
     else:
         return render(request, 'webpage/login.html', {
