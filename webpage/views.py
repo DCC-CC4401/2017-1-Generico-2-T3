@@ -96,7 +96,7 @@ def agregar_producto(request):
             producto.save()
             return redirect(perfil_vendedor, vendedor.user.username)
         else:
-            return render(request, 'webpage/gestion-productos.html', {'error': "error en el formulario"})
+            return render(request, 'webpage/gestion-productos.html', {'error': "Error en el formulario"})
     else:
         raise Http404("No se ha logueado un vendedor")
 
@@ -151,10 +151,13 @@ def login_intent(request):
             vendedor = Vendedor.objects.get(user=user)
             perfil = vendedor.avatar.url
             request.session['foto_perfil'] = perfil
+            request.session['esVendedor'] = True
+
         else:
             cliente = Comprador.objects.get(user=user)
             perfil = "../../static/img/AvatarEstudiante" + str(cliente.avatar) + ".png"
             request.session['foto_perfil'] = perfil
+            request.session['esVendedor'] = False
         return render(request, 'webpage/index.html')
 
     else:
