@@ -94,11 +94,7 @@ def login_intent(request):
 
 
 
-<<<<<<< HEAD
 
-
-=======
->>>>>>> 5a023e24c5e53d040d47c4ecf898d60630730785
 def reg_intent(request):
     name = request.POST['nombre']
     passw = request.POST['password']
