@@ -36,8 +36,21 @@
                   <div class="background" style="height:175px;">
                     <img src="../../static/img/background4.png">
                   </div>
-                  <a href="#!user"><img style="margin-top: 16%;" class="circle" src="../../static/img/AvatarPenguin.png"></a>
-                  <a href="#!name"><span style="margin-left: 5%;" class="white-text name">Invitado</span></a>
+                        {% if user.is_authenticated %}
+                            {% if esVendedor %}
+                                <a href="#!user"><img style="margin-top: 16%;" class="circle" src= {{perfil}} ></a>
+                                <a href="#!name"><span style="margin-left: 5%;" class="white-text name">{{user.username}}</span></a>
+                            {% else %}
+                                <a href="#!user"><img style="margin-top: 16%;" class="circle" src= {{perfil}} ></a>
+                                <a href="#!name"><span style="margin-left: 5%;" class="white-text name">{{user.username}}</span></a>
+                            {% endif %}
+
+                        {% else %}
+                        <a href="#!user"><img style="margin-top: 16%;" class="circle" src="../../static/img/AvatarPenguin.png"></a>
+                        <a href="#!name"><span style="margin-left: 5%;" class="white-text name">Invitado</span></a>
+
+                        {% endif %}
+
                 </div>
                 </li>
                 <li><a href="{% url 'index' %}"><i class="material-icons">home</i>Inicio</a></li>
