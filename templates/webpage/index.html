@@ -1,95 +1,48 @@
 {% extends 'webpage/base.html' %}
 {% block content %}
-	<div id="map"></div>
-    
-    <script>
-      function initMap() {
-        var infoWindow;
-        var beau850 = {lat: -33.457785, lng: -70.663808};
-        var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 19,
-          center: beau850
-        });
-        infoWindow = new google.maps.InfoWindow;
-
-        var info = '<div id="content">'+
-            '<div id="siteNotice">'+
-            '</div>'+
-            '<div><p style="float: left;"><img src="../static/img/AvatarVendedor4.png" width="50" hspace="10"></p>'    +
-            '<h4>Casino</h4></div>'+
-            '<p style="color:#029500;"> Disponible</p>' +
-            '<div id="bodyContent">'+
-            '<p>Vendedores de almuerzo</p>'+
-            '<p><i>Menú de hoy:</i> Lasaña</p>' +
-            '<p><i>Formas de pago:</i> Efectivo, Tarjeta de Crédito o Débito, Junaeb</p>' +
-            '<p><i>Horario:</i> 12:30-14:15</p>' +
-            '<p><input type="checkbox" class="filled-in" id="test" checked="checked" />' +
-            '<label for="test">Favorito</label></p>' +
-            '<p style="text-align: right;">Ver detalles»</p>' +
-            '</div>'+
-            '</div>';
-
-        var infoVendedor = new google.maps.InfoWindow({
-          content: info,
-          maxWidth: 400
-        });
-
-
-        var marker = new google.maps.Marker({
-          position: beau850,
-          map: map
-        });
-
-        var marker2 = new google.maps.Marker({
-          position: {lat: -33.457885, lng: -70.663808},
-          map: map
-        });
-
-        var marker3 = new google.maps.Marker({
-          position: {lat: -33.458085, lng: -70.663808},
-          map: map,
-          icon: '../static/img/star.png'
-        });
-
-        var marker4 = new google.maps.Marker({
-          position: {lat: -33.458158, lng: -70.663678},
-          map: map
-        });
-
-        var marker5 = new google.maps.Marker({
-          position: {lat: -33.457658, lng: -70.663778},
-          map: map
-        });
-
-        marker3.addListener('click', function() {
-            infoVendedor.open(map, marker3);
-          });
-
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(function(position) {
-            var pos = {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude
+	<div id="map" style="position:relative;overflow:hidden">
+    <img src="../../static/img/mapa.png" alt="Mapa" usemap="#vendedoresmapa" style="position:absolute;height:100%;width:100%">
+        <map name="vendedoresmapa" style="position:absolute;">
+            <area shape="rect" coords="620,410,650,450" href="a.htm" alt="vendedor1">
+            <area shape="rect" coords="605,465,635,515" href="b.htm" alt="vendedor2" >
+            <area shape="rect" coords="605,516,635,546" href="c.htm" alt="vendedor3">
+            <area shape="circle" coords="620,620,20" href="mercur.htm" alt="vendedorfav4">
+            <area shape="rect" coords="655,630,685,670" href="d.htm" alt="vendedor5" ;>
+        </map>
+    </div>
+<script>
+window.onload = function () {
+    var ImageMap = function () {
+            var n,
+                mapdiv = document.getElementById('map'),
+                areas = document.getElementsByTagName('area'),
+                len = areas.length,
+                coords = [],
+                previousWidth = 1540,
+                previousHeight = 1012;
+            for (n = 0; n < len; n++) {
+                coords[n] = areas[n].coords.split(',');
             }
-            map.setCenter(pos);
-          }, function() {
-            handleLocationError(true, infoWindow, map.getCenter());
-          });
-        } else {
-          // Browser doesn't support Geolocation
-          handleLocationError(false, infoWindow, map.getCenter());
-        }
-      }
-
-      function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-        infoWindow.setPosition(pos);
-        infoWindow.setContent(browserHasGeolocation ?
-                              'Error: The Geolocation service failed.' :
-                              'Error: Your browser doesn\'t support geolocation.');
-        infoWindow.open(map);
-      }
-    </script>
-    <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCE-kjbzXzRccbKAw_ZWjear0BN6NyzRpA&callback=initMap">
-    </script>
+            this.resize = function () {
+                var n, m, clen,
+                    x = mapdiv.clientWidth/ previousWidth,
+                    y = mapdiv.clientHeight / previousHeight;
+                for (n = 0; n < len; n++) {
+                    clen = coords[n].length;
+                    for (m = 0; m < (clen/2); m++) {
+                        coords[n][2*m] *= x;
+                        coords[n][2*m+1] *= y;
+                    }
+                    areas[n].coords = coords[n].join(',');
+                }
+                previousWidth = mapdiv.clientWidth;
+                previousHeight = mapdiv.clientHeight;
+                return true;
+            };
+            window.onresize = this.resize;
+        },
+        imageMap = new ImageMap(document.getElementById('map_ID'));
+    imageMap.resize();
+}
+</script>
 {% endblock %}
