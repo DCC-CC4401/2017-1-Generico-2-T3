@@ -129,7 +129,6 @@ def reg_intent(request):
 
                                                acepta_Junaeb = valMediosPago[3], avatar = request.FILES.get('fotoPerfil', None))
 
-
             if(tipo=='VendedorFijo'):
                 vhoraInicio,vminutoInicio = str(request.POST['horaInicio']).split(":")
                 vhoraFin,vminutoFin = str(request.POST['horaFin']).split(":")
