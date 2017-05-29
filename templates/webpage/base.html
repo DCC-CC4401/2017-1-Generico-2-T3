@@ -58,6 +58,13 @@
                 
                 {% if user.is_authenticated %}
                 {% if request.session.esVendedor %}
+                {% if request.session.esAmbulante %}
+                {% if user.vendedor.vendedorambulante.activo %}
+                <li><a href="{% url 'checkswitch' %}"><i class="material-icons">clear</i>Check-out</a></li>
+                {% else %}
+                <li><a href="{% url 'checkswitch' %}"><i class="material-icons">done</i>Check-in</a></li>
+                {% endif %}
+                {% endif %}
                 <li><a href="{% url 'perfil_vendedor' user.username %}"><i class="material-icons">face</i>Perfil</a></li>
                 {% endif %}
                 <li><a href="{% url 'logout' %}"><i class="material-icons">exit_to_app</i>Cerrar Sesión</a></li>

@@ -136,6 +136,19 @@ def eliminar_producto(request, pk_producto):
     else:
         raise Http404("No se ha logueado un vendedor")
 
+def checkswitch(request):
+    context = dict()
+    if request.user.is_authenticated() and hasattr(request.user, 'vendedor') and hasattr(request.user.vendedor, 'vendedorambulante'):
+        vendedor = request.user.vendedor.vendedorambulante
+        if vendedor.activo:
+            vendedor.activo = False
+        else:
+            vendedor.activo = True
+        vendedor.save()
+        return redirect(perfil_vendedor, vendedor.user.user.username)
+    else:
+        raise Http404("No se ha logueado un vendedor ambulante")
+
 def logout_intent(request):
     logout(request)
     return redirect('index')
@@ -152,12 +165,16 @@ def login_intent(request):
             perfil = vendedor.avatar.url
             request.session['foto_perfil'] = perfil
             request.session['esVendedor'] = True
-
+            if hasattr(vendedor, 'vendedorambulante'):
+                request.session['esAmbulante'] = True
+            else:
+                request.session['esAmbulante'] = False
         else:
             cliente = Comprador.objects.get(user=user)
             perfil = "../../static/img/AvatarEstudiante" + str(cliente.avatar) + ".png"
             request.session['foto_perfil'] = perfil
             request.session['esVendedor'] = False
+            request.session['esAmbulante'] = False
         return render(request, 'webpage/index.html')
 
     else:
