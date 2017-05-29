@@ -67,12 +67,20 @@ def login_intent(request):
     user = authenticate(username=name, password=passw)
     if user is not None:
         login(request, user)
-        return redirect('index')
+        if hasattr(user, 'vendedor'):
+            vendedor = Vendedor.objects.get(user=user)
+            perfil = vendedor.avatar.url
+        else:
+            cliente = Comprador.objects.get(user=user)
+            perfil = "../../static/img/AvatarEstudiante" + str(cliente.avatar) + ".png"
+        print(perfil)
+        return render(request, 'webpage/index.html', {'esVendedor':hasattr(user, 'vendedor'), 'perfil':perfil})
 
     else:
         return render(request, 'webpage/login.html', {
             'error': 'No ha ingresado un usuario y contraseña válidos'
         })
+
 
 
 def reg_intent(request):
@@ -103,7 +111,6 @@ def reg_intent(request):
             vendedor = Vendedor.objects.create(user=usuario,acepta_Efectivo=valMediosPago[0],
                                                acepta_Credito = valMediosPago[1], acepta_Debito = valMediosPago[2],
                                                acepta_Junaeb = valMediosPago[3], avatar = request.FILES['perfil'])
-
             if(tipo=='VendedorFijo'):
                 vhoraInicio,vminutoInicio = str(request.POST['horaInicio']).split(":")
                 vhoraFin,vminutoFin = str(request.POST['horaFin']).split(":")
