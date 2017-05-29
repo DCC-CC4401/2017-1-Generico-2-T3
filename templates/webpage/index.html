@@ -3,11 +3,11 @@
 	<div id="map" style="position:relative;overflow:hidden">
     <img src="../../static/img/mapa.png" alt="Mapa" usemap="#vendedoresmapa" style="position:absolute;height:100%;width:100%">
         <map name="vendedoresmapa" style="position:absolute;">
-            <area shape="rect" coords="620,410,650,450" href="a.htm" alt="vendedor1">
-            <area shape="rect" coords="605,465,635,515" href="b.htm" alt="vendedor2" >
-            <area shape="rect" coords="605,516,635,546" href="c.htm" alt="vendedor3">
-            <area shape="circle" coords="620,620,20" href="mercur.htm" alt="vendedorfav4">
-            <area shape="rect" coords="655,630,685,670" href="d.htm" alt="vendedor5" ;>
+            <area shape="rect" coords="620,410,650,450" href="{% url 'perfil_vendedor' "vendedor1" %}" alt="vendedor1">
+            <area shape="rect" coords="605,465,635,515" href="{% url 'perfil_vendedor' "vendedor2" %}" alt="vendedor2">
+            <area shape="rect" coords="605,516,635,546" href="{% url 'perfil_vendedor' "vendedor3" %}" alt="vendedor3">
+            <area shape="circle" coords="620,620,20" href="{% url 'perfil_vendedor' "vendedorfav" %}" alt="vendedorfav">
+            <area shape="rect" coords="655,630,685,670" href="{% url 'perfil_vendedor' "vendedor4" %}" alt="vendedor4">
         </map>
     </div>
 <script>
