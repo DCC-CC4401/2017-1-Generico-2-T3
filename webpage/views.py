@@ -287,12 +287,16 @@ def cambios_exitosos(request):
             cliente = User.objects.get(username=name).comprador
             cliente.avatar =fotocli
             cliente.save()
+            perfil = "../../static/img/AvatarEstudiante" + str(cliente.avatar) + ".png"
+            request.session['foto_perfil'] = perfil
 
         
         if  newpass2 != None and newpass2!="": 
               
               u.set_password(newpass2)
               u.save()
+              
+
               
 
         if hasattr(request.user, 'vendedor') ==True:
@@ -308,6 +312,8 @@ def cambios_exitosos(request):
             if fotovend != None:
                 vendedor.avatar = fotovend 
                 vendedor.save()
+                perfil = vendedor.avatar.url
+                request.session['foto_perfil'] = perfil
 
             if hasattr(user.vendedor, 'vendedorfijo'):
 
