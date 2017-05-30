@@ -55,7 +55,7 @@ class Producto(models.Model):
     )
     nombre = models.CharField(max_length=200)
     foto = models.FileField(blank=True, upload_to='productoImage')
-    fotoPrev = models.CharField(max_length=1000)
+    fotoPrev = models.CharField(max_length=1000, default="../../static/img/fries.png")
     descripcion= models.CharField(max_length=500)
     stock = models.IntegerField()
     precio = models.IntegerField()
