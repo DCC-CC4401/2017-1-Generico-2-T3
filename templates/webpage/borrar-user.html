@@ -1,4 +1,3 @@
-
 {% extends 'webpage/base.html' %}
 {% block content %}
 
@@ -43,17 +42,14 @@ $(document).ready(function() {
                 
               </div>
 
-            {%if request.session.esVendedor%} 
+              {%if vendedor%} 
 
-              {%if request.session.esAmbulante == False%} 
+              {%if vendedorFijo%} 
 
               </div>
-              <div class="row" id="horarioDiv" >
-                 Cambiar horarios de atención:
+              <div class="row" id="horarioDiv" style="display:none">
                   <div class="row">
-                    
                     <div class="input-field col s6">
-
                       <i class="material-icons prefix">alarm</i>
                       <input id="icon_prefix" type="text" class="validate" name = 'horaInicio'>
                       <label for="icon_prefix">Hora inicial</label>
@@ -65,26 +61,26 @@ $(document).ready(function() {
                     </div>
                   </div>
               </div>
-              
               {%endif%} 
 
-            <div class='row' id ="formaPagoDiv" >
+
+            <div class='row' id ="formaPagoDiv" style="display:none">
               <div class='input-field col s12 m12'>
                 Seleccione sus formas de pago:
                       <p>
-                        <input type="checkbox" class="filled-in" id="filled-in-box"  name = 'Efectivo' />
+                        <input type="checkbox" class="filled-in" id="filled-in-box" checked="unchecked" name = 'Efectivo' />
                         <label for="filled-in-box">Efectivo</label>
                       </p>
                       <p>
-                        <input type="checkbox" class="filled-in" id="filled-in-box2" name = 'Credito'/>
+                        <input type="checkbox" class="filled-in" id="filled-in-box2" checked="unchecked" name = 'Credito'/>
                         <label for="filled-in-box2">Tarjeta de Crédito</label>
                       </p>
                       <p>
-                        <input type="checkbox" class="filled-in" id="filled-in-box3"  name = 'Debito'/>
+                        <input type="checkbox" class="filled-in" id="filled-in-box3" checked="unchecked" name = 'Debito'/>
                         <label for="filled-in-box3">Tarjeta de Débito</label>
                       </p>
                       <p>
-                        <input type="checkbox" class="filled-in" id="filled-in-box4"  name = 'Junaeb'/>
+                        <input type="checkbox" class="filled-in" id="filled-in-box4" checked="unchecked" name = 'Junaeb'/>
                         <label for="filled-in-box4">Tarjeta Junaeb</label>
                       </p>
               </div>
@@ -99,8 +95,7 @@ $(document).ready(function() {
                <div class='row' id ="imagenDiv" >
                    <input type="file" id="myFile" name ="fotoPerfil">
                </div>
-            
-            {%else%} 
+              {%else%} 
               <div id="avatarLabel" >
                   Cambiar avatar:
               </div>
@@ -115,7 +110,7 @@ $(document).ready(function() {
                   <input class="with-gap" name="group1" type="radio" id="test4" value ="4" />
                   <label for="test4"><img style="max-width: 50px;" src="../../static/img/AvatarEstudiante4.png"></label>
                 </div>
-            {%endif%} 
+              {%endif%} 
 
 
 

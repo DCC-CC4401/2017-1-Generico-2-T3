@@ -295,7 +295,7 @@ def cambios_exitosos(request):
               
               u.set_password(newpass2)
               u.save()
-              
+
 
               
 
@@ -360,4 +360,23 @@ def gestion_favoritos(request, nombre_vendedor):
             return JsonResponse({'message' : 'Vendedor removido de favorito.'})
     else:
         return JsonResponse({'message': 'No fue posible completar la operacion.'})
+
+
+
+
+
+
+
+
+def eliminar(request):
+
+    passw = request.POST['confirmacion']
+
+    if authenticate(username=name, password=passw):
+        return render(request, 'webpage/gestion-usuario.html')
+
+    return render(request, 'webpage/gestion-usuario.html')
+
+
+
 
