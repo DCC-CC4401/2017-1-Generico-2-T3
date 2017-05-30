@@ -258,8 +258,8 @@ def cambios_exitosos(request):
     if (request.POST.get('horaInicio',None) != "") and (request.POST.get('horaFin',None) != "") and (request.POST.get('horaInicio',None) != None) and (request.POST.get('horaFin',None) != None):
     
     
-        horaInicio , vminutoInicio = str(request.POST.get('horaInicio',None).split(":"))
-        vhoraFin , vminutoFin = str(request.POST.get('horaFin',None).split(":"))
+        horaInicio , vminutoInicio = str(request.POST.get('horaInicio',None)).split(":")
+        vhoraFin , vminutoFin = str(request.POST.get('horaFin',None)).split(":")
 
 
     mediosPago = request.POST.dict()
