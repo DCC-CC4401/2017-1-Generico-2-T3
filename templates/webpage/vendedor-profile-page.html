@@ -79,11 +79,13 @@
                     </div>
                 </div>
                 <div class="row">
+                    {% if user.username == vendedor.user.username %}
                     <div class="col offset-s10 s2">
-                        <a class="btn-floating activator waves-effect waves-light darken-2">
+                        <a class="btn-floating activator waves-effect waves-light darken-2" href="{% url 'miPerfil' %}">
                               <i class="material-icons">mode_edit</i>
                           </a>
                      </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
