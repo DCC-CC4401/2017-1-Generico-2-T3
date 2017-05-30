@@ -160,6 +160,7 @@ def login_intent(request):
     user = authenticate(username=name, password=passw)
     if user is not None:
         login(request, user)
+
         if hasattr(user, 'vendedor'):
             vendedor = Vendedor.objects.get(user=user)
             perfil = vendedor.avatar.url
@@ -241,8 +242,97 @@ def gestion_usuario(request):
 
 def cambios_exitosos(request):
 
-    return render(request, 'webpage/gestion-usuario.html',  {
-             'succes': 'Tus cambios han sido guardados con éxito'} )
+    name = request.user.get_username()
+    passw = request.POST['confirmacion']
+
+    newpass =request.POST.get('password11', None)
+    newpass2 = request.POST.get('password22', None)
+
+    fotovend =request.FILES.get('fotoPerfil', None)
+    fotocli =request.POST.get('group1', None)
+
+
+    if request.POST.get('horaInicio',None) != None and (request.POST('horaFin',None) != None):
+    
+    
+        horaInicio , vminutoInicio = str(request.POST.get('horaInicio',None).split(":"))
+        vhoraFin , vminutoFin = str(request.POST('horaFin',None).split(":"))
+
+
+    mediosPago = request.POST.dict()
+    valMediosPago = [False,False,False,False]
+    print(mediosPago)
+    if "Efectivo" in mediosPago:
+        valMediosPago[0]=True
+    if "Credito" in mediosPago:
+        valMediosPago[1] = True
+    if "Debito" in mediosPago:
+        valMediosPago[2] = True
+    if "Junaeb" in mediosPago:
+        valMediosPago[3] = True
+
+
+
+    if authenticate(username=name, password=passw):
+
+
+        if newpass2 != newpass:
+            return render(request, 'webpage/gestion-usuario.html',  {
+                'fail': 'La confirmación de la nueva contraseña no corresponde a la ingresada.'} )
+
+        u = User.objects.get(username=name)
+
+
+        if  fotocli != None  and  hasattr(request.user, 'comprador'): 
+            cliente = User.objects.get(username=name).comprador
+            cliente.avatar =fotocli
+            cliente.save()
+
+        
+        if  newpass2 != None and newpass2!="": 
+              
+              u.set_password(newpass2)
+              u.save()
+              
+
+        if hasattr(request.user, 'vendedor') ==True:
+            
+            vendedor = User.objects.get(username=name).vendedor
+            
+            if valMediosPago.count(False) != 4:
+                vendedor.acepta_Efectivo= valMediosPago[0]
+                vendedor.acepta_Credito = valMediosPago[1]
+                vendedor.acepta_Debito = valMediosPago[2]
+                vendedor.acepta_Junaeb = valMediosPago[3]
+                vendedor.save()
+            if fotovend != None:
+                vendedor.avatar = fotovend 
+                vendedor.save()
+
+            if hasattr(user.vendedor, 'vendedorfijo'):
+
+                if (vhoraInicio !=None) and (vminutoInicio != None) and (vhoraFin !=None) and (vminutoFin != None):
+    
+                    fijo= User.objects.get(username=name).vendedor.vendedorfijo
+                    fijo.horaInicio=vhoraInicio
+                    fijo.minutoInicio=vminutoInicio
+                    fijo.horaFin=vhoraFin
+                    fijo.minutoFin=vminutoFin
+                    fijo.save()
+
+
+
+
+
+        return render(request, 'webpage/gestion-usuario.html',  {
+                'succes': 'Tus cambios han sido guardados con éxito.'} )
+
+
+
+    else:
+
+        return render(request, 'webpage/gestion-usuario.html',  {
+                    'fail': 'Tu contraseña no es válida.'} )
 
 
 
