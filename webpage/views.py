@@ -261,9 +261,8 @@ def cambios_exitosos(request):
 
 
     if (request.POST.get('horaInicio',None) != "") and (request.POST.get('horaFin',None) != "") and (request.POST.get('horaInicio',None) != None) and (request.POST.get('horaFin',None) != None):
-    
-    
-        horaInicio , vminutoInicio = str(request.POST.get('horaInicio',None)).split(":")
+
+        vhoraInicio , vminutoInicio = str(request.POST.get('horaInicio',None)).split(":")
         vhoraFin , vminutoFin = str(request.POST.get('horaFin',None)).split(":")
 
 
@@ -280,8 +279,8 @@ def cambios_exitosos(request):
         valMediosPago[3] = True
 
 
-
     if authenticate(username=name, password=passw):
+
 
 
         if newpass2 != newpass:
@@ -323,8 +322,7 @@ def cambios_exitosos(request):
                 perfil = vendedor.avatar.url
                 request.session['foto_perfil'] = perfil
 
-            if hasattr(request.user, 'vendedorfijo'):
-
+            if hasattr(vendedor, 'vendedorfijo'):
                 if (vhoraInicio !=None) and (vminutoInicio != None) and (vhoraFin !=None) and (vminutoFin != None):
     
                     fijo= User.objects.get(username=name).vendedor.vendedorfijo
