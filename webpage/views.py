@@ -240,6 +240,9 @@ def gestion_usuario(request):
 
     return render(request, 'webpage/gestion-usuario.html')
 
+
+
+
 def cambios_exitosos(request):
 
     name = request.user.get_username()
@@ -252,7 +255,7 @@ def cambios_exitosos(request):
     fotocli =request.POST.get('group1', None)
 
 
-    if request.POST.get('horaInicio',None) != "" and (request.POST.get('horaFin',None) != ""):
+    if (request.POST.get('horaInicio',None) != "") and (request.POST.get('horaFin',None) != "") and (request.POST.get('horaInicio',None) != None) and (request.POST.get('horaFin',None) != None):
     
     
         horaInicio , vminutoInicio = str(request.POST.get('horaInicio',None).split(":"))
