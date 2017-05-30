@@ -31,9 +31,12 @@ $(document).ready(function() {
             
 
 
-            
+
             {% if pre %}
 
+            {% if fail %}
+            {{fail}}
+            {% endif %}
             <div class='row' style="padding-top:1cm">
               <div class='input-field col s12 m12'>
                 <input class='validate' type='password' name='confirmacion' id='confirmacion'/>

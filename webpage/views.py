@@ -377,7 +377,10 @@ def eliminado(request):
         u = User.objects.get(username = name)
         u.delete()
 
-    return render(request, 'webpage/borrar-user.html',{'message' : 'Usuario eliminado'})
+        return render(request, 'webpage/borrar-user.html',{'message' : 'Usuario eliminado'})
+
+    return render(request, 'webpage/borrar-user.html',{'fail' : 'Contraseña invalida', 'pre' : "hola"})
+
 
 
 def eliminar(request):
