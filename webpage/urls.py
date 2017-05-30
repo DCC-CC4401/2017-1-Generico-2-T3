@@ -15,7 +15,21 @@ urlpatterns = [
     url(r'^vendedor/(?P<nombre_vendedor>\w+)$', views.perfil_vendedor, name='perfil_vendedor'),
     url(r'^producto$', views.gestion_producto, name='gestion_producto'),
 
+    url(r'^miPerfil$', views.gestion_usuario, name='miPerfil'),
+    url(r'^miPerfil/cambios$', views.cambios_exitosos, name='cambios_exitosos'),
 
+
+    url(r'^producto/addtry$', views.agregar_producto, name='addtry'),
+    url(r'^producto/(?P<pk_producto>\w+)$', views.editar_producto, name='editarProducto'),
+    url(r'^actualizarProducto/(?P<pk_producto>\w+)$', views.actualizar_producto, name='actualizarProducto'),
+    url(r'^eliminarProducto/(?P<pk_producto>\w+)$', views.eliminar_producto, name='eliminarProducto'),
+    url(r'^checkswitch$', views.checkswitch, name='checkswitch'),
+    url(r'^favoritos/(?P<nombre_vendedor>\w+)?', views.gestion_favoritos, name='gestion_favoritos'),
+
+    url(r'^eliminarUsuario$', views.eliminar, name='eliminar'),
+
+    url(r'^eliminadoExitosamente$', views.eliminado, name='eliminado'),
+    
 
     
 ]

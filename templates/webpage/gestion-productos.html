@@ -3,14 +3,24 @@
 
 <main>
 <div class="section"></div>
-
+      {% if error %}
+      <p style="text-align: center; color:red">{{ error }}</p>
+      {% endif %}
+    {% if producto %}
+        <h4 class="teal-text" style="text-align: center;">Editar {{producto.nombre}}</h4>
+    {% else %}
       <h4 class="teal-text" style="text-align: center;">Agregar Item</h4>
+    {% endif %}
       <div class="section"></div>
 
       <div class="container">
         <div class="z-depth-1 grey lighten-4 row" style="margin-left: 5%; margin-right: 5%; padding: 32px 48px 0px 48px; border: 1px solid #EEE;">
-
-          <form class="col s12 m12" method="post">
+            {% if producto %}
+            <form class="col s12 m12" method="post" enctype="multipart/form-data" action="{% url 'actualizarProducto' producto.pk %}">
+            {% else %}
+            <form class="col s12 m12" method="post" enctype="multipart/form-data" action="{% url 'addtry' %}">
+            {% endif %}
+              {% csrf_token %}
             <div class='row'>
               <div class='col s12 m12'>
               </div>
@@ -20,7 +30,12 @@
               <div class='input-field col s12 m12'>
                   &ensp;Nombre del producto:
                  <div class="input-field inline ">
-                <input placeholder="Pizza" class='validate' type='text' name='item' id='item' />
+                 {% if producto %}
+                     <input placeholder="Pizza" class='validate' type='text' name='item' id='item' value="{{producto.nombre}}" />
+                {% else %}
+                    <input placeholder="Pizza" class='validate' type='text' name='item' id='item' />
+                {% endif %}
+
                 <label style="text-align: center" for='item'></label>
                  </div>
               </div>
@@ -30,7 +45,12 @@
               <div class='input-field col s12 m12'>
                   &ensp;Precio del producto:
                   <div class="input-field inline">
-                <input placeholder="1300" class='validate' type='text' name='precio' id='precio' />
+                      {% if producto %}
+                     <input placeholder="1300" class='validate' type='text' name='precio' id='precio' value="{{producto.precio}}" />
+                    {% else %}
+                    <input placeholder="1300" class='validate' type='text' name='precio' id='precio' />
+                    {% endif %}
+
                 <label style="text-align: center" for='precio'></label>
                   </div>
               </div>
@@ -39,75 +59,88 @@
               <div class='input-field col s12 m12'>
                   &ensp;Stock del producto:
                   <div class="input-field inline">
-                <input placeholder="42" class='validate' type='text' name='stock' id='stock' />
+                      {% if producto %}
+                     <input placeholder="42" class='validate' type='text' name='stock' id='stock' value="{{producto.stock}}" />
+                    {% else %}
+                    <input placeholder="42" class='validate' type='text' name='stock' id='stock' />
+                    {% endif %}
+
                 <label style="text-align: center" for='stock'></label>
                   </div>
               </div>
             </div>
             <div class="row">
-                <form class="col s12">
+                <a class="col s12">
                   <div class="row">
                     <div class="input-field col s12 m12">
                       <i class="material-icons prefix">&emsp;mode_edit</i>
-                      <textarea id="icon_prefix2" class="materialize-textarea"></textarea>
-                      <label  for="icon_prefix2">&emsp;Descripción</label>
+                        {% if producto %}
+                     <textarea id='descripcion' name='descripcion' class="materialize-textarea">{{producto.descripcion}}</textarea>
+                    {% else %}
+                    <textarea id='descripcion' name='descripcion' class="materialize-textarea"></textarea>
+                    {% endif %}
+
+                      <label  for='descripcion'>&emsp;Descripción</label>
                     </div>
                   </div>
-                </form>
+                </a>
             </div>
+              {% if producto %}
+              <button type='submit' name='agregar' class='col l5 offset-l4 btn btn-large waves-effect button teal'>&emsp; &emsp;Guardar cambios<i class="material-icons right">send</i></button>
+              {% else %}
               <div>
                   Selecciona una imagen previa:
               </div>
 
                 <div class="col s12 l6">
-                  <input class="with-gap" name="group1" type="radio" id="test1" />
+                  <input class="with-gap" name="test" type="radio" id="test1" value="../../static/img/bread.png" checked />
                   <label for="test1"><img style="max-width: 50px;" src="../../static/img/bread.png"></label>
-                  <input class="with-gap" name="group2" type="radio" id="test2" />
+                  <input class="with-gap" name="test" type="radio" id="test2" value="../../static/img/breakfast.png" />
                   <label for="test2"><img style="max-width: 50px;" src="../../static/img/breakfast.png"></label>
-                  <input class="with-gap" name="group2" type="radio" id="test3" />
+                  <input class="with-gap" name="test" type="radio" id="test3" value="../../static/img/burger.png" />
                   <label for="test3"><img style="max-width: 50px;" src="../../static/img/burger.png"></label>
-                  <input class="with-gap" name="group2" type="radio" id="test4" />
+                  <input class="with-gap" name="test" type="radio" id="test4" value="../../static/img/chicken.png" />
                   <label for="test4"><img style="max-width: 50px;" src="../../static/img/chicken.png"></label>
-                  <input class="with-gap" name="group2" type="radio" id="test5" />
+                  <input class="with-gap" name="test" type="radio" id="test5" value="../../static/img/chicken2.png"/>
                   <label for="test5"><img style="max-width: 50px;" src="../../static/img/chicken2.png"></label>
                 </div>
                 <div class="col s12 l6">
-                  <input class="with-gap" name="group1" type="radio" id="test6" />
+                  <input class="with-gap" name="test" type="radio" id="test6" value="../../static/img/chocolate.png"/>
                   <label for="test6"><img style="max-width: 50px;" src="../../static/img/chocolate.png"></label>
-                  <input class="with-gap" name="group2" type="radio" id="test7" />
+                  <input class="with-gap" name="test" type="radio" id="test7"  value="../../static/img/coke.png"/>
                   <label for="test7"><img style="max-width: 50px;" src="../../static/img/coke.png"></label>
-                  <input class="with-gap" name="group2" type="radio" id="test8" />
+                  <input class="with-gap" name="test" type="radio" id="test8"  value="../../static/img/cupcake.png"/>
                   <label for="test8"><img style="max-width: 50px;" src="../../static/img/cupcake.png"></label>
-                  <input class="with-gap" name="group2" type="radio" id="test9" />
+                  <input class="with-gap" name="test" type="radio" id="test9" value="../../static/img/donut.png" />
                   <label for="test9"><img style="max-width: 50px;" src="../../static/img/donut.png"></label>
-                  <input class="with-gap" name="group2" type="radio" id="test10" />
+                  <input class="with-gap" name="test" type="radio" id="test10" value="../../static/img/jelly.png" />
                   <label for="test10"><img style="max-width: 50px;" src="../../static/img/jelly.png"></label>
                 </div>
                 <div class="col s12 l6">
-                  <input class="with-gap" name="group1" type="radio" id="test11" />
+                  <input class="with-gap" name="test" type="radio" id="test11" value="../../static/img/fish.png"/>
                   <label for="test11"><img style="max-width: 50px;" src="../../static/img/fish.png"></label>
-                  <input class="with-gap" name="group2" type="radio" id="test12" />
+                  <input class="with-gap" name="test" type="radio" id="test12" value="../../static/img/fries.png"/>
                   <label for="test12"><img style="max-width: 50px;" src="../../static/img/fries.png"></label>
-                  <input class="with-gap" name="group2" type="radio" id="test13" />
+                  <input class="with-gap" name="test" type="radio" id="test13" value="../../static/img/hot-dog.png"/>
                   <label for="test13"><img style="max-width: 50px;" src="../../static/img/hot-dog.png"></label>
-                  <input class="with-gap" name="group2" type="radio" id="test14" />
+                  <input class="with-gap" name="test" type="radio" id="test14" value="../../static/img/icecream.png"/>
                   <label for="test14"><img style="max-width: 50px;" src="../../static/img/icecream.png"></label>
-                  <input class="with-gap" name="group2" type="radio" id="test15" />
+                  <input class="with-gap" name="test" type="radio" id="test15" value="../../static/img/juice.png"/>
                   <label for="test15"><img style="max-width: 50px;" src="../../static/img/juice.png"></label>
                 </div>
                 <div class="col s12 l6">
-                  <input class="with-gap" name="group1" type="radio" id="test16" />
+                  <input class="with-gap" name="test" type="radio" id="test16" value="../../static/img/lettuce.png"/>
                   <label for="test16"><img style="max-width: 50px;" src="../../static/img/lettuce.png"></label>
-                  <input class="with-gap" name="group2" type="radio" id="test17" />
+                  <input class="with-gap" name="test" type="radio" id="test17" value="../../static/img/pizza.png"/>
                   <label for="test17"><img style="max-width: 50px;" src="../../static/img/pizza.png"></label>
-                  <input class="with-gap" name="group2" type="radio" id="test18" />
+                  <input class="with-gap" name="test" type="radio" id="test18" value="../../static/img/spaguetti.png"/>
                   <label for="test18"><img style="max-width: 50px;" src="../../static/img/spaguetti.png"></label>
-                  <input class="with-gap" name="group2" type="radio" id="test19" />
+                  <input class="with-gap" name="test" type="radio" id="test19" value="../../static/img/rice.png"/>
                   <label for="test19"><img style="max-width: 50px;" src="../../static/img/rice.png"></label>
 
                 </div>
 
-              </form>
+
 
             <div id="file-upload" class="section">
              <!--Default version-->
@@ -132,7 +165,7 @@
                           <p>Arrastre y suelte un archivo aquí o haga click</p>
                           <p class="dropify-error">Sorry, this file is too large</p>
                       </div>
-                      <input type="file" id="input-file-now" class="dropify" data-default-file="">
+                      <input type="file" id="foto" name="foto" class="dropify" >
                       <button type="button" class="dropify-clear">Remove</button>
                       <div class="dropify-preview"><span class="dropify-render"></span>
                           <div class="dropify-infos">
@@ -145,13 +178,14 @@
                           </div>
                       </div>
                   </div>
+
               </div>
             </div>
             <div class='row'>
-                    <a class='col l5 offset-l4 btn btn-large waves-effect button teal' href="{% url 'perfil_vendedor' %}">&emsp; &emsp;Agregar<i class="material-icons right">send</i></a>
+                    <button type='submit' name='agregar' class='col l5 offset-l4 btn btn-large waves-effect button teal'>&emsp; &emsp;Agregar<i class="material-icons right">send</i></button>
             </div>
           </div>
-
+            {% endif %}
           </form>
         </div>
       </div>

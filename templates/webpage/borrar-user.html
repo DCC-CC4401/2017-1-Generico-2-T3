@@ -1,0 +1,68 @@
+{% extends 'webpage/base.html' %}
+{% block content %}
+
+
+
+<script>
+$(document).ready(function() {
+    $('select').material_select();
+});
+</script>
+
+<div class="section"></div>
+  <main>
+      
+      <h5 class="teal-text" style="text-align: center;">Borrar Usuario</h5>
+      <div class="section"></div>
+
+      <div class="container">
+        <div class="z-depth-1 grey lighten-4 row" style="margin-left: 5%; margin-right: 5%; padding: 32px 48px 0px 48px; border: 1px solid #EEE;">
+          <form class="col s12 m12" method="post" enctype="multipart/form-data" action="{% url 'eliminado' %}">
+              {% csrf_token %}
+            <div class='row'>
+              <div class='col s12 m12'>
+              </div>
+            </div>
+
+             
+
+             
+
+            
+
+
+            
+            {% if pre %}
+
+            <div class='row' style="padding-top:1cm">
+              <div class='input-field col s12 m12'>
+                <input class='validate' type='password' name='confirmacion' id='confirmacion'/>
+                <label style="text-align: center" for='password'>Ingresa tu contraseña actual para confirmar la eliminación</label>
+              </div>
+            </div>
+
+        
+
+              <div class='row'>
+                <button type='submit' name='btn_login' class='col l6 offset-l3 btn btn-large waves-effect teal'>Eliminar</button>
+              </div>
+
+              {%  else %}
+
+              {{message}}
+              {% endif %}
+
+          </form>
+        </div>
+      </div>
+       
+
+
+    <div class="section"></div>
+    <div class="section"></div>
+  </main>
+
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+ 
+{% endblock %}
