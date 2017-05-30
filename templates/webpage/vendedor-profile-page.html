@@ -114,7 +114,7 @@
                                                     {% endif %}
                                                     <div id="modal1" class="modal">
                                                         <div class="modal-content">
-                                                          <img class="activator responsive-img center-block" src={{producto.foto.url}}>
+                                                          <img class="activator responsive-img center-block" src={{producto.foto.urlf|default_if_none:'../../static/img/fries.png'}}>
                                                         </div>
                                                         <div class="modal-footer">
                                                           <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat"><i class="large material-icons">close</i></a>

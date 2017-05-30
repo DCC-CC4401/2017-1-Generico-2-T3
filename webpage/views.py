@@ -27,6 +27,11 @@ def perfil_vendedor(request, nombre_vendedor):
     context = dict()
     user = get_object_or_404(User, username=nombre_vendedor)
     productos = Producto.objects.filter(vendedor=user.vendedor)
+    for producto in productos:
+        if producto.foto and hasattr(producto.foto, 'url'):
+            producto.foto.urlf = producto.foto.url
+        else:
+            producto.foto.urlf =None
     context['productos'] = productos
     if hasattr(user, 'vendedor'):
         medios_pago = []
@@ -240,6 +245,9 @@ def gestion_usuario(request):
 
     return render(request, 'webpage/gestion-usuario.html')
 
+
+
+
 def cambios_exitosos(request):
 
     name = request.user.get_username()
@@ -252,11 +260,11 @@ def cambios_exitosos(request):
     fotocli =request.POST.get('group1', None)
 
 
-    if request.POST.get('horaInicio',None) != "" and (request.POST.get('horaFin',None) != ""):
+    if (request.POST.get('horaInicio',None) != "") and (request.POST.get('horaFin',None) != "") and (request.POST.get('horaInicio',None) != None) and (request.POST.get('horaFin',None) != None):
     
     
-        horaInicio , vminutoInicio = str(request.POST.get('horaInicio',None).split(":"))
-        vhoraFin , vminutoFin = str(request.POST.get('horaFin',None).split(":"))
+        horaInicio , vminutoInicio = str(request.POST.get('horaInicio',None)).split(":")
+        vhoraFin , vminutoFin = str(request.POST.get('horaFin',None)).split(":")
 
 
     mediosPago = request.POST.dict()
