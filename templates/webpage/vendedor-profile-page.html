@@ -2,9 +2,14 @@
 {% block content %}
 
 <script>
- $(document).ready(function(){
+$(document).ready(function(){
     $('.modal').modal();
-  });
+    {% if esFavorito %}
+        $('#fav1').prop('checked', true);
+    {% else %}
+        $('#fav1').prop('checked', false);
+    {% endif %}
+});
 
 </script>
 <script type="text/javascript">
@@ -12,7 +17,6 @@
         $('#fav1').change(function() {
             var agregando = $.post("{% url 'gestion_favoritos' vendedor.user.username%}", {checked: this.checked, csrfmiddlewaretoken: '{{ csrf_token }}'});
             agregando.done(function(data) {
-                console.log(data);
                 alert(data.message);
             });
             agregando.fail(function(data) {

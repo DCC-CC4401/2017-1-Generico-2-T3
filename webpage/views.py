@@ -67,6 +67,8 @@ def perfil_vendedor(request, nombre_vendedor):
             context['vendedor'] = user.vendedor
             context['fijo'] = False
             context['activo'] = context['vendedor'].vendedorambulante.activo
+        if hasattr(request.user, 'comprador'):
+            context['esFavorito'] = request.user.comprador.favoritos.filter(user=user.vendedor)
     else:
         raise Http404("No hay vendedores que tengan el nombre buscado")
     return render(request, 'webpage/vendedor-profile-page.html',context)
@@ -360,10 +362,10 @@ def gestion_favoritos(request, nombre_vendedor):
         vendedor = User.objects.get(username=nombre_vendedor).vendedor
         if request.POST['checked'] == "true":
             comprador.favoritos.add(vendedor)
-            return JsonResponse({'message': 'Vendedor agregado como favoritos.'})
+            return JsonResponse({'message': 'Vendedor agregado como favorito.'})
         else:
             comprador.favoritos.remove(vendedor)
-            return JsonResponse({'message' : 'Vendedor removido de favorito.'})
+            return JsonResponse({'message' : 'Vendedor removido de favoritos.'})
     else:
         return JsonResponse({'message': 'No fue posible completar la operacion.'})
 
