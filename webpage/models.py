@@ -53,9 +53,9 @@ class Producto(models.Model):
         'Vendedor',
         on_delete=models.CASCADE,
     )
-    nombre = models.CharField(max_length=200)
+    nombre = models.CharField(max_length=200,default="Sin nombre")
     foto = models.FileField(blank=True, upload_to='productoImage')
-    fotoPrev = models.CharField(max_length=1000)
+    fotoPrev = models.CharField(max_length=1000, default="../../static/img/fries.png")
     descripcion= models.CharField(max_length=500)
     stock = models.IntegerField()
     precio = models.IntegerField()
