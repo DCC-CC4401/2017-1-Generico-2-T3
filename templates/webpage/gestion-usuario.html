@@ -25,6 +25,9 @@ $(document).ready(function() {
 
       <div class="container">
         <div class="z-depth-1 grey lighten-4 row" style="margin-left: 5%; margin-right: 5%; padding: 32px 48px 0px 48px; border: 1px solid #EEE;">
+        <div class='row'>
+                <button  name='btn_login' class='col l3 offset-l3btn btn-large waves-effect teal' onclick="location.href='{% url 'eliminar' %}'" >Eliminar Perfil</button>
+              </div>
           <form class="col s12 m12" method="post" enctype="multipart/form-data" action="{% url 'cambios_exitosos' %}">
               {% csrf_token %}
             <div class='row'>
@@ -34,9 +37,7 @@ $(document).ready(function() {
 
              
 
-             <div class='row'>
-                <button  name='btn_login' class='col l3 offset-l3btn btn-large waves-effect teal' onclick="{% url 'cambios_exitosos' %}" >Eliminar Perfil</button>
-              </div>
+             
 
             <div class='row'>
               <div class='input-field col s12 m12'>

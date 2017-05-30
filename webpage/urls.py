@@ -27,6 +27,8 @@ urlpatterns = [
     url(r'^favoritos/(?P<nombre_vendedor>\w+)?', views.gestion_favoritos, name='gestion_favoritos'),
 
     url(r'^eliminarUsuario$', views.eliminar, name='eliminar'),
+
+    url(r'^eliminadoExitosamente$', views.eliminado, name='eliminado'),
     
 
     

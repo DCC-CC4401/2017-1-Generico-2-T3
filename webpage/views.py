@@ -243,7 +243,7 @@ def gestion_usuario(request):
 def cambios_exitosos(request):
 
     name = request.user.get_username()
-    passw = request.POST['confirmacion']
+    passw = request.POST.get('confirmacion')
 
     newpass =request.POST.get('password11', None)
     newpass2 = request.POST.get('password22', None)
@@ -252,16 +252,16 @@ def cambios_exitosos(request):
     fotocli =request.POST.get('group1', None)
 
 
-    if request.POST.get('horaInicio',None) != None and (request.POST('horaFin',None) != None):
+    if request.POST.get('horaInicio',None) != "" and (request.POST.get('horaFin',None) != ""):
     
     
         horaInicio , vminutoInicio = str(request.POST.get('horaInicio',None).split(":"))
-        vhoraFin , vminutoFin = str(request.POST('horaFin',None).split(":"))
+        vhoraFin , vminutoFin = str(request.POST.get('horaFin',None).split(":"))
 
 
     mediosPago = request.POST.dict()
     valMediosPago = [False,False,False,False]
-    print(mediosPago)
+    
     if "Efectivo" in mediosPago:
         valMediosPago[0]=True
     if "Credito" in mediosPago:
@@ -315,7 +315,7 @@ def cambios_exitosos(request):
                 perfil = vendedor.avatar.url
                 request.session['foto_perfil'] = perfil
 
-            if hasattr(user.vendedor, 'vendedorfijo'):
+            if hasattr(request.user, 'vendedorfijo'):
 
                 if (vhoraInicio !=None) and (vminutoInicio != None) and (vhoraFin !=None) and (vminutoFin != None):
     
@@ -368,15 +368,20 @@ def gestion_favoritos(request, nombre_vendedor):
 
 
 
-def eliminar(request):
+def eliminado(request):
+    name = request.user.get_username()
 
-    passw = request.POST['confirmacion']
+    passw = request.POST.get('confirmacion')
 
     if authenticate(username=name, password=passw):
-        return render(request, 'webpage/gestion-usuario.html')
+        u = User.objects.get(username = name)
+        u.delete()
 
-    return render(request, 'webpage/gestion-usuario.html')
+    return render(request, 'webpage/borrar-user.html',{'message' : 'Usuario eliminado'})
 
+
+def eliminar(request):
+    return render(request, 'webpage/borrar-user.html', {'pre' : "hola"})
 
 
 

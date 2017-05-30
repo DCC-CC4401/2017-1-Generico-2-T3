@@ -11,20 +11,13 @@ $(document).ready(function() {
 
 <div class="section"></div>
   <main>
-      <div class="section"></div>
-      {% if succes %}
-      <p style="text-align: center;">{{ succes }}</p>
-      {% endif %}
-
-      {% if fail %}
-      <p style="text-align: center;">{{ fail }}</p>
-      {% endif %}
-      <h5 class="teal-text" style="text-align: center;">Opciones de Perfil</h5>
+      
+      <h5 class="teal-text" style="text-align: center;">Borrar Usuario</h5>
       <div class="section"></div>
 
       <div class="container">
         <div class="z-depth-1 grey lighten-4 row" style="margin-left: 5%; margin-right: 5%; padding: 32px 48px 0px 48px; border: 1px solid #EEE;">
-          <form class="col s12 m12" method="post" enctype="multipart/form-data" action="{% url 'cambios_exitosos' %}">
+          <form class="col s12 m12" method="post" enctype="multipart/form-data" action="{% url 'eliminado' %}">
               {% csrf_token %}
             <div class='row'>
               <div class='col s12 m12'>
@@ -33,121 +26,31 @@ $(document).ready(function() {
 
              
 
-             <div class='row'>
-                <button  name='btn_login' class='col l3 offset-l3btn btn-large waves-effect teal' onclick="{% url 'cambios_exitosos' %}" >Eliminar Perfil</button>
-              </div>
+             
 
-            <div class='row'>
-              <div class='input-field col s12 m12'>
-                
-              </div>
-
-              {%if vendedor%} 
-
-              {%if vendedorFijo%} 
-
-              </div>
-              <div class="row" id="horarioDiv" style="display:none">
-                  <div class="row">
-                    <div class="input-field col s6">
-                      <i class="material-icons prefix">alarm</i>
-                      <input id="icon_prefix" type="text" class="validate" name = 'horaInicio'>
-                      <label for="icon_prefix">Hora inicial</label>
-                    </div>
-                    <div class="input-field col s6">
-                      <i class="material-icons prefix">alarm</i>
-                      <input id="icon_telephone" type="tel" class="validate" name ='horaFin'>
-                      <label for="icon_telephone">Hora final</label>
-                    </div>
-                  </div>
-              </div>
-              {%endif%} 
+            
 
 
-            <div class='row' id ="formaPagoDiv" style="display:none">
-              <div class='input-field col s12 m12'>
-                Seleccione sus formas de pago:
-                      <p>
-                        <input type="checkbox" class="filled-in" id="filled-in-box" checked="unchecked" name = 'Efectivo' />
-                        <label for="filled-in-box">Efectivo</label>
-                      </p>
-                      <p>
-                        <input type="checkbox" class="filled-in" id="filled-in-box2" checked="unchecked" name = 'Credito'/>
-                        <label for="filled-in-box2">Tarjeta de Crédito</label>
-                      </p>
-                      <p>
-                        <input type="checkbox" class="filled-in" id="filled-in-box3" checked="unchecked" name = 'Debito'/>
-                        <label for="filled-in-box3">Tarjeta de Débito</label>
-                      </p>
-                      <p>
-                        <input type="checkbox" class="filled-in" id="filled-in-box4" checked="unchecked" name = 'Junaeb'/>
-                        <label for="filled-in-box4">Tarjeta Junaeb</label>
-                      </p>
-              </div>
-            </div>
-
-
-
-
-              <div id = "imagenLabel" style="padding-top:1cm">
-                  Cambiar imagen de perfil:
-              </div>
-               <div class='row' id ="imagenDiv" >
-                   <input type="file" id="myFile" name ="fotoPerfil">
-               </div>
-              {%else%} 
-              <div id="avatarLabel" >
-                  Cambiar avatar:
-              </div>
-
-                <div class="col s12 l6" id="avatarDiv" >
-                  <input class="with-gap" name="group1" type="radio" id="test1" value ="1" />
-                  <label for="test1"><img style="max-width: 50px;" src="../../static/img/AvatarEstudiante1.png"></label>
-                  <input class="with-gap" name="group1" type="radio" id="test2" value ="2" />
-                  <label for="test2"><img style="max-width: 50px;" src="../../static/img/AvatarEstudiante2.png"></label>
-                  <input class="with-gap" name="group1" type="radio" id="test3" value ="3" />
-                  <label for="test3"><img style="max-width: 50px;" src="../../static/img/AvatarEstudiante3.png"></label>
-                  <input class="with-gap" name="group1" type="radio" id="test4" value ="4" />
-                  <label for="test4"><img style="max-width: 50px;" src="../../static/img/AvatarEstudiante4.png"></label>
-                </div>
-              {%endif%} 
-
-
-
-
-            <div class='row'>
-              <div class='input-field col s12 m12'>
-                <input class='validate' type='password' name='password11' id='password1'/>
-                <label style="text-align: center" for='password'>Cambia tu contraseña</label>
-              </div>
-            </div>
-
-
-
-            <div class='row'>
-              <div class='input-field col s12 m12'>
-                <input class='validate' type='password' name='password22' id='password2'/>
-                <label style="text-align: center" for='password'>Confirma tu nueva contraseña</label>
-              </div>
-            </div>
-
-
-
-
-
+            
+            {% if pre %}
 
             <div class='row' style="padding-top:1cm">
               <div class='input-field col s12 m12'>
                 <input class='validate' type='password' name='confirmacion' id='confirmacion'/>
-                <label style="text-align: center" for='password'>Ingresa tu contraseña actual para confirmar cambios</label>
+                <label style="text-align: center" for='password'>Ingresa tu contraseña actual para confirmar la eliminación</label>
               </div>
             </div>
 
         
 
               <div class='row'>
-                <button type='submit' name='btn_login' class='col l6 offset-l3 btn btn-large waves-effect teal'>Guardar Cambios</button>
+                <button type='submit' name='btn_login' class='col l6 offset-l3 btn btn-large waves-effect teal'>Eliminar</button>
               </div>
+
+              {%  else %}
+
+              {{message}}
+              {% endif %}
 
           </form>
         </div>
