@@ -1,6 +1,6 @@
+
 from django.db import models
 from django.contrib.auth.models import User , Group
-
 
 class Categorias(models.Model):
     tipo = models.CharField(max_length=25)
@@ -54,7 +54,7 @@ class Producto(models.Model):
         on_delete=models.CASCADE,
     )
     nombre = models.CharField(max_length=200,default="Sin nombre")
-    foto = models.FileField(blank=True, upload_to='productoImage')
+    foto = models.FileField(blank=True, upload_to='productoImage', default = None)
     fotoPrev = models.CharField(max_length=1000, default="../../static/img/fries.png")
     descripcion= models.CharField(max_length=500)
     stock = models.IntegerField()

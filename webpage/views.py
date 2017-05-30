@@ -27,6 +27,11 @@ def perfil_vendedor(request, nombre_vendedor):
     context = dict()
     user = get_object_or_404(User, username=nombre_vendedor)
     productos = Producto.objects.filter(vendedor=user.vendedor)
+    for producto in productos:
+        if producto.foto and hasattr(producto.foto, 'url'):
+            producto.foto.urlf = producto.foto.url
+        else:
+            producto.foto.urlf =None
     context['productos'] = productos
     if hasattr(user, 'vendedor'):
         medios_pago = []
